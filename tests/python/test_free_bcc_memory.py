@@ -14,8 +14,7 @@ import os
 
 class TestFreeLLVMMemory(TestCase):
     def getRssFile(self):
-        p = Popen(["cat", "/proc/" + str(os.getpid()) + "/status"],
-                  stdout=PIPE)
+        p = Popen(["cat", f"/proc/{str(os.getpid())}/status"], stdout=PIPE)
         rss = None
         unit = None
         for line in p.stdout.readlines():

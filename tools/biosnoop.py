@@ -162,8 +162,8 @@ else:
     bpf_text = bpf_text.replace('__RQ_DISK__', 'q->disk')
 if debug or args.ebpf:
     print(bpf_text)
-    if args.ebpf:
-        exit()
+if args.ebpf:
+    exit()
 
 # initialize BPF
 b = BPF(text=bpf_text)
@@ -199,11 +199,7 @@ def print_event(cpu, data, size):
     if start_ts == 0:
         start_ts = event.ts
 
-    if event.rwflag == 1:
-        rwflg = "W"
-    else:
-        rwflg = "R"
-
+    rwflg = "W" if event.rwflag == 1 else "R"
     delta = float(event.ts) - start_ts
 
     disk_name = event.disk_name.decode('utf-8', 'replace')

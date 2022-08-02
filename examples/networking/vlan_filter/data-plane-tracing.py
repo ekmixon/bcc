@@ -16,21 +16,21 @@ from datetime import datetime
 
 #args
 def usage():
-    print("USAGE: %s [-i <if_name>]" % argv[0])
+    print(f"USAGE: {argv[0]} [-i <if_name>]")
     print("")
     print("Try '%s -h' for more options." % argv[0])
     exit()
 
 #help
 def help():
-    print("USAGE: %s [-i <if_name>][-k <kafka_server_name:kafka_port>]" % argv[0])
+    print(f"USAGE: {argv[0]} [-i <if_name>][-k <kafka_server_name:kafka_port>]")
     print("")
     print("optional arguments:")
     print("   -h                       print this help")
     print("   -i if_name               select interface if_name. Default is eth0")
     print("   -k kafka_server_name     select kafka server name. Default is save to file")
     print("                            If -k option is not specified data will be saved to file.")
-    
+
     print("")
     print("examples:")
     print("    data-plane-tracing                                      # bind socket to eth0")

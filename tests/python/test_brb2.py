@@ -86,15 +86,21 @@ class TestBPFSocket(TestCase):
         with ipdb.create(ifname=veth_pem_2_br, kind="veth", peer=veth_br_2_pem) as v:
             v.up()
         ipdb.interfaces[veth_br_2_pem].up().commit()
-        subprocess.call(["sysctl", "-q", "-w", "net.ipv6.conf." + veth_pem_2_br + ".disable_ipv6=1"])
-        subprocess.call(["sysctl", "-q", "-w", "net.ipv6.conf." + veth_br_2_pem + ".disable_ipv6=1"])
+        subprocess.call(
+            ["sysctl", "-q", "-w", f"net.ipv6.conf.{veth_pem_2_br}.disable_ipv6=1"]
+        )
+
+        subprocess.call(
+            ["sysctl", "-q", "-w", f"net.ipv6.conf.{veth_br_2_pem}.disable_ipv6=1"]
+        )
+
 
         # set up the bridge and add router interface as one of its slaves
         with ipdb.create(ifname=br, kind="bridge") as br1:
             br1.add_port(ipdb.interfaces[veth_pem_2_br])
             br1.add_port(ipdb.interfaces[veth_rt_2_br])
             br1.up()
-        subprocess.call(["sysctl", "-q", "-w", "net.ipv6.conf." + br + ".disable_ipv6=1"])
+        subprocess.call(["sysctl", "-q", "-w", f"net.ipv6.conf.{br}.disable_ipv6=1"])
 
     def set_default_const(self):
         self.ns1            = "ns1"

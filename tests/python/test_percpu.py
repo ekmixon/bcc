@@ -41,7 +41,7 @@ class TestPercpu(unittest.TestCase):
         event_name = bpf_code.get_syscall_fnname("clone")
         bpf_code.attach_kprobe(event=event_name, fn_name="hello_world")
         ini = stats_map.Leaf()
-        for i in range(0, multiprocessing.cpu_count()):
+        for i in range(multiprocessing.cpu_count()):
             ini[i] = 0
         stats_map[ stats_map.Key(0) ] = ini
         f = os.popen("hostname")
@@ -51,8 +51,8 @@ class TestPercpu(unittest.TestCase):
         sum = stats_map.sum(stats_map.Key(0))
         avg = stats_map.average(stats_map.Key(0))
         max = stats_map.max(stats_map.Key(0))
-        self.assertGreater(sum.value, int(0))
-        self.assertGreater(max.value, int(0))
+        self.assertGreater(sum.value, 0)
+        self.assertGreater(max.value, 0)
         bpf_code.detach_kprobe(event_name)
 
     def test_u32(self):
@@ -73,7 +73,7 @@ class TestPercpu(unittest.TestCase):
         event_name = bpf_code.get_syscall_fnname("clone")
         bpf_code.attach_kprobe(event=event_name, fn_name="hello_world")
         ini = stats_map.Leaf()
-        for i in range(0, multiprocessing.cpu_count()):
+        for i in range(multiprocessing.cpu_count()):
             ini[i] = 0
         stats_map[ stats_map.Key(0) ] = ini
         f = os.popen("hostname")
@@ -83,8 +83,8 @@ class TestPercpu(unittest.TestCase):
         sum = stats_map.sum(stats_map.Key(0))
         avg = stats_map.average(stats_map.Key(0))
         max = stats_map.max(stats_map.Key(0))
-        self.assertGreater(sum.value, int(0))
-        self.assertGreater(max.value, int(0))
+        self.assertGreater(sum.value, 0)
+        self.assertGreater(max.value, 0)
         bpf_code.detach_kprobe(event_name)
 
     def test_struct_custom_func(self):
@@ -118,7 +118,7 @@ class TestPercpu(unittest.TestCase):
         f.close()
         self.assertEqual(len(stats_map),1)
         k = stats_map[ stats_map.Key(0) ]
-        self.assertGreater(k.c1, int(0))
+        self.assertGreater(k.c1, 0)
         bpf_code.detach_kprobe(event_name)
 
 

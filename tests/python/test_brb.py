@@ -119,26 +119,20 @@ class TestBPFSocket(TestCase):
         prog_id_br1 = 2
         prog_id_br2 = 3
 
-        # initial port id and table pointers
-        curr_pem_pid = 0
-        curr_br1_pid = 0
-        curr_br2_pid = 0
-
         # configure jump table
         self.jump[c_uint(prog_id_pem)] = c_uint(self.pem_fn.fd)
         self.jump[c_uint(prog_id_br1)] = c_uint(self.br1_fn.fd)
         self.jump[c_uint(prog_id_br2)] = c_uint(self.br2_fn.fd)
 
-        # connect pem and br1
-        curr_pem_pid = curr_pem_pid + 1
-        curr_br1_pid = curr_br1_pid + 1
+        curr_pem_pid = 0 + 1
+        curr_br1_pid = 0 + 1
         self.connect_ports(prog_id_pem, prog_id_br1, curr_pem_pid, curr_br1_pid,
                       self.br1_dest, self.br1_mac,
                       self.ns1_eth_out.index, self.vm1_mac, self.vm1_ip)
 
         # connect pem and br2
-        curr_pem_pid = curr_pem_pid + 1
-        curr_br2_pid = curr_br2_pid + 1
+        curr_pem_pid += 1
+        curr_br2_pid = 0 + 1
         self.connect_ports(prog_id_pem, prog_id_br2, curr_pem_pid, curr_br2_pid,
                       self.br2_dest, self.br2_mac,
                       self.ns2_eth_out.index, self.vm2_mac, self.vm2_ip)
